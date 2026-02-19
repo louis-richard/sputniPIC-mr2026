@@ -11,6 +11,7 @@ import os
 
 # Third-party imports
 import numpy as np
+import xarray as xr
 from vtk import vtkStructuredPointsReader
 from vtk.util.numpy_support import vtk_to_numpy
 
@@ -170,6 +171,38 @@ def read_field(name, time_step, path):
     field = np.reshape(field, (dim[1], dim[0], dim[2], 3))
 
     return field
+
+
+def calc_rcrate(e_xyz, ixrc, sigma=10):
+    r"""Calculate the reconnection rate from the electric field at the center of the box.
+
+    Parameters
+    ----------
+    e_xyz : xarray.DataArray
+        The electric field data array.
+    ixrc : int
+        The index of the location of the reconnection site along x.
+    sigma : int, optional
+        The number of grid points to average over along y, by default 10.
+
+    Returns
+    -------
+    e_rec : xarray.DataArray
+        The reconnection rate as a function of time.
+    
+    """
+    
+    # number of grid points along y
+    ny = e_xyz.shape[1]
+    
+    # index of the center of the box along y (current sheet)
+    iyrc = int(ny / 2)
+
+    # Get the electric field at the center of the box
+    e_rec = np.mean(-e_xyz.data[:, iyrc-sigma:iyrc+sigma, ixrc, 0, 2], axis=1)
+
+    e_rec = xr.DataArray(e_rec, coords=[e_xyz.time], dims=["time"])
+    return e_rec
 
 
 def calc_gradx(inp=None, x=None, periodic=True, der_ord=1):
