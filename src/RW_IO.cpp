@@ -568,7 +568,10 @@ void VTK_Write_Vectors(int cycle, struct grid *grd, struct EMfield *field, struc
   my_file2.close();
 }
 
-inline void VTK_Write_J(int cycle, struct grid *grd, struct interpDensSpecies* ids, struct interpDensNet* idn){
+void VTK_Write_J(int cycle, struct grid *grd, 
+                struct interpDensSpecies* ids, 
+                struct interpDensNet* idn, 
+                struct parameters *param){
     // stream file to be opened and managed
     string filename = "Je";
     string temp;
