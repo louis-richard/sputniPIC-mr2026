@@ -56,3 +56,12 @@ __pycache__
 *.png
 *.m
 *.csv
+
+# Build directory
+#################
+build
+
+# Run directories
+#################
+run*
+
