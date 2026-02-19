@@ -424,9 +424,15 @@ int main(int argc, char** argv) {
 		// ====================================================== //
         // IO
 		if (!mpi_rank && cycle % param.FieldOutputCycle == 0) {
-			// write E, B, rho to disk
-			VTK_Write_Vectors(cycle, &grd, &field, &param);
-			VTK_Write_Scalars(cycle, &grd, ids, &idn, &param);
+			// Write E, and B fields
+			VTK_Write_Vectors(cycle, &grd,&field, &param);
+			
+			// Write electron, ion, and net charge densities
+			VTK_Write_Scalars(cycle, &grd,ids,&idn, &param);
+
+			// Write electron and ion velocity vectors
+			// actually species 0 and 1
+			VTK_Write_V(cycle, &grd,ids,&idn, &param);
 		}
 
                 if (cycle % param.ParticlesOutputCycle == 0) {
