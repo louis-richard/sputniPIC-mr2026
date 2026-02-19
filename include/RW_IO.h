@@ -26,6 +26,11 @@ void saveParameters(struct parameters *param);
 
 void VTK_Write_Vectors(int cycle, struct grid *grd, struct EMfield *field, struct parameters *param);
 
+void VTK_Write_V(int cycle, struct grid *grd, 
+                 struct interpDensSpecies* ids, 
+                 struct interpDensNet* idn,
+                 struct parameters *param);
+
 void VTK_Write_Scalars(int cycle, struct grid *grd,
                        struct interpDensSpecies *ids,
                        struct interpDensNet *idn,

@@ -568,6 +568,161 @@ void VTK_Write_Vectors(int cycle, struct grid *grd, struct EMfield *field, struc
   my_file2.close();
 }
 
+inline void VTK_Write_J(int cycle, struct grid *grd, struct interpDensSpecies* ids, struct interpDensNet* idn){
+    // stream file to be opened and managed
+    string filename = "Je";
+    string temp;
+    std::stringstream cc;
+    cc << cycle;
+    // temp = "./data/" + filename + "_"+ cc.str() ;
+    temp = param->SaveDirName + "/" + filename + "_" + cc.str();
+    temp += ".vtk";
+    std::cout << "Opening file: " << temp << std::endl;
+    
+    int nxn = grd->nxn;
+    int nyn = grd->nyn;
+    int nzn = grd->nzn;
+    
+    double dx = grd->dx;
+    double dy = grd->dy;
+    double dz = grd->dz;
+    
+    std::ofstream my_fileJe(temp.c_str());
+    my_fileJe << "# vtk DataFile Version 1.0" << std::endl;
+    my_fileJe << "Je field" << std::endl;
+    my_fileJe << "ASCII" << std::endl;
+    my_fileJe << "DATASET STRUCTURED_POINTS"  << std::endl;
+    my_fileJe << "DIMENSIONS " << (nxn-3) << " " << (nyn-3) << " " << (nzn-3) << std::endl;
+    my_fileJe << "ORIGIN " << 0.0 << " " << 0.0 << " " << 0.0 << std::endl;
+    my_fileJe << "SPACING " << dx << " " << dy << " " << dz << std::endl;
+    my_fileJe<< "POINT_DATA " << (nxn-3)*(nyn-3)*(nzn-3) << std::endl;
+    my_fileJe << "VECTORS Je float" << std::endl;
+    
+    double Jx = 0, Jy = 0, Jz = 0;
+    
+    
+    for (int k=1; k < nzn-2; k++)
+      for (int j=1; j < nyn-2; j++)
+        for (int i=1; i < nxn-2; i++){
+            Jx = ids[0].Jx[i][j][k];
+            Jy = ids[0].Jy[i][j][k];
+            Jz = ids[0].Jz[i][j][k];
+            my_fileJe << Jx << " " << Jy <<  " " << Jz <<  std::endl;
+        }
+    my_fileJe.close();
+    
+    // Ji
+    filename = "Ji";
+    // temp = "./data/" + filename + "_"+ cc.str() ;
+    temp = param->SaveDirName + "/" + filename + "_" + cc.str();
+    temp += ".vtk";
+    std::cout << "Opening file: " << temp << std::endl;
+    
+    
+    std::ofstream my_fileJi(temp.c_str());
+    my_fileJi << "# vtk DataFile Version 1.0" << std::endl;
+    my_fileJi << "Ji field" << std::endl;
+    my_fileJi << "ASCII" << std::endl;
+    my_fileJi << "DATASET STRUCTURED_POINTS"  << std::endl;
+    my_fileJi << "DIMENSIONS " << (nxn-3) << " " << (nyn-3) << " " << (nzn-3) << std::endl;
+    my_fileJi << "ORIGIN " << 0.0 << " " << 0.0 << " " << 0.0 << std::endl;
+    my_fileJi << "SPACING " << dx << " " << dy << " " << dz << std::endl;
+    my_fileJi << "POINT_DATA " << (nxn-3)*(nyn-3)*(nzn-3) << std::endl;
+    my_fileJi << "VECTORS Ji float" << std::endl;
+    
+    Jx = 0, Jy = 0, Jz = 0;
+
+    for (int k=1; k < nzn-2; k++)
+      for (int j=1; j < nyn-2; j++)
+        for (int i=1; i < nxn-2; i++){
+            Jx = ids[1].Jx[i][j][k];
+            Jy = ids[1].Jy[i][j][k];
+            Jz = ids[1].Jz[i][j][k];
+            my_fileJi << Jx << " " << Jy <<  " " << Jz <<  std::endl;
+        }
+    my_fileJi.close();
+    
+}
+
+void VTK_Write_V(int cycle, struct grid *grd, 
+                struct interpDensSpecies* ids, 
+                struct interpDensNet* idn, 
+                struct parameters *param) {
+    // stream file to be opened and managed
+    string filename = "Ve";
+    string temp;
+    std::stringstream cc;
+    cc << cycle;
+    // temp = "./data/" + filename + "_"+ cc.str() ;
+    temp = param->SaveDirName + "/" + filename + "_" + cc.str();
+    temp += ".vtk";
+    std::cout << "Opening file: " << temp << std::endl;
+    
+    int nxn = grd->nxn;
+    int nyn = grd->nyn;
+    int nzn = grd->nzn;
+    
+    double dx = grd->dx;
+    double dy = grd->dy;
+    double dz = grd->dz;
+    
+    std::ofstream my_fileVe(temp.c_str());
+    my_fileVe << "# vtk DataFile Version 1.0" << std::endl;
+    my_fileVe << "Ve fluid velocity" << std::endl;
+    my_fileVe << "ASCII" << std::endl;
+    my_fileVe << "DATASET STRUCTURED_POINTS"  << std::endl;
+    my_fileVe << "DIMENSIONS " << (nxn-3) << " " << (nyn-3) << " " << (nzn-3) << std::endl;
+    my_fileVe << "ORIGIN " << 0.0 << " " << 0.0 << " " << 0.0 << std::endl;
+    my_fileVe << "SPACING " << dx << " " << dy << " " << dz << std::endl;
+    my_fileVe<< "POINT_DATA " << (nxn-3)*(nyn-3)*(nzn-3) << std::endl;
+    my_fileVe << "VECTORS Ve float" << std::endl;
+    
+    double Vx = 0, Vy = 0, Vz = 0;
+    
+    
+    for (int k=1; k < nzn-2; k++)
+      for (int j=1; j < nyn-2; j++)
+        for (int i=1; i < nxn-2; i++){
+            Vx = ids[0].Jx[i][j][k]/ids[0].rhon[i][j][k] ;
+            Vy = ids[0].Jy[i][j][k]/ids[0].rhon[i][j][k] ;
+            Vz = ids[0].Jz[i][j][k]/ids[0].rhon[i][j][k] ;
+            my_fileVe << Vx << " " << Vy <<  " " << Vz <<  std::endl;
+        }
+    my_fileVe.close();
+    
+    // Ji
+    filename = "Vi";
+    // temp = "./data/" + filename + "_"+ cc.str() ;
+    temp = param->SaveDirName + "/" + filename + "_" + cc.str();
+    temp += ".vtk";
+    std::cout << "Opening file: " << temp << std::endl;
+    
+    
+    std::ofstream my_fileVi(temp.c_str());
+    my_fileVi << "# vtk DataFile Version 1.0" << std::endl;
+    my_fileVi << "Vi field" << std::endl;
+    my_fileVi << "ASCII" << std::endl;
+    my_fileVi << "DATASET STRUCTURED_POINTS"  << std::endl;
+    my_fileVi << "DIMENSIONS " << (nxn-3) << " " << (nyn-3) << " " << (nzn-3) << std::endl;
+    my_fileVi << "ORIGIN " << 0.0 << " " << 0.0 << " " << 0.0 << std::endl;
+    my_fileVi << "SPACING " << dx << " " << dy << " " << dz << std::endl;
+    my_fileVi << "POINT_DATA " << (nxn-3)*(nyn-3)*(nzn-3) << std::endl;
+    my_fileVi << "VECTORS Vi float" << std::endl;
+    
+    Vx = 0, Vy = 0, Vz = 0;
+
+    for (int k=1; k < nzn-2; k++)
+      for (int j=1; j < nyn-2; j++)
+        for (int i=1; i < nxn-2; i++){
+            Vx = ids[1].Jx[i][j][k]/ids[1].rhon[i][j][k] ;
+            Vy = ids[1].Jy[i][j][k]/ids[1].rhon[i][j][k] ;
+            Vz = ids[1].Jz[i][j][k]/ids[1].rhon[i][j][k] ;
+            my_fileVi << Vx << " " << Vy <<  " " << Vz <<  std::endl;
+        }
+    my_fileVi.close();
+    
+}
+
 void VTK_Write_Scalars(int cycle, struct grid *grd,
                        struct interpDensSpecies *ids,
                        struct interpDensNet *idn,
