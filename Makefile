@@ -1,10 +1,20 @@
-VERSION=GPU
+VERSION=CPU
+
+# HDF5 paths for Homebrew on Apple Silicon
+HDF5_LIBS=-L/opt/homebrew/opt/hdf5-mpi/lib -lhdf5
+HDF5_CFLAGS=-I/opt/homebrew/opt/hdf5-mpi/include
+
+# HDF5 paths for Homebrew on Intel
+# HDF5_LIBS=-L/usr/local/opt/hdf5-mpi/lib -lhdf5
+# HDF5_CFLAGS=-I/usr/local/opt/hdf5-mpi/include
+
+# HDF5 paths for Ubuntu on Odin
+# HDF5_LIBS=-L/usr/lib/x86_64-linux-gnu/hdf5/openmpi/lib -lhdf5
+# HDF5_CFLAGS=-I/usr/lib/x86_64-linux-gnu/hdf5/openmpi/include
 
 CXX=mpicxx
-CXXFLAGS=-std=c++11 -I./include -O3 -g -fopenmp -Wall
+CXXFLAGS=-std=c++11 $(HDF5_CFLAGS) -I./include -O3 -fopenmp -lmpi -Wall
 
-HDF5_LIBS=-L/usr/local/lib -lhdf5
-HDF5_CFLAGS=-I/usr/local/include
 NVCC=nvcc
 
 ARCH=-gencode arch=compute_60,code=sm_60 -gencode arch=compute_61,code=sm_61 -gencode arch=compute_70,code=sm_70

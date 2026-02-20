@@ -11,12 +11,23 @@ cd sputniPIC-mr2026
 ```
 
 ## Building
-Create the build directory
+### On Linux
+
+Compile with make
+
+```bash
+$ make
+$ make -j 4 # build with 4 threads
+$ make -j # build with maximum threads
+```
+
+Alternatively you can use CMake to build sputniPIC. Create the build directory
+
 ```bash
 $ mkdir build && cd build
 ```
 
-Use cmak to generate the make files
+Generate the make files
 
 ```bash
 $ cmake ..
@@ -30,21 +41,45 @@ $ make -j 4 # build with 4 threads
 $ make -j # build with maximum threads
 ```
 
+### On Mac OS
+
+Install homebrew 
+
+```bash
+$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+Install sputniPIC dependencies
+
+```bash
+$ brew install hdf5-mpi
+```
+
+Compile with make
+
+```bash
+$ make
+$ make -j 4 # build with 4 threads
+$ make -j # build with maximum threads
+```
+
+
 ## Usage
 
 Create a run directory with subdirectories for the output and the restart files
  
 ```bash
-$ mkdir ../run00
-$ mkdir ../run00/data
-$ mkdir ../run00/restart
+$ cd /homelocal/username/sputniPIC-mr2026/
+$ mkdir ./run00
+$ mkdir ./run00/data
+$ mkdir ./run00/restart
 ```
 
 Copy the input files and change the path to the output data
 
 ```bash
-$ scp ../inputfiles/GEM_2D.inp ../run00/GEM_2D.inp
-$ vi ../run00/GEM_2D.inp
+$ scp ./inputfiles/GEM_2D.inp ../run00/GEM_2D.inp
+$ vi ./run00/GEM_2D.inp
 
 SaveDirName = /homelocal/username/sputniPIC-mr2026/run00/data
 RestartDirName = /homelocal/username/sputniPIC-mr2026/run00/restart
@@ -54,7 +89,7 @@ RestartDirName = /homelocal/username/sputniPIC-mr2026/run00/restart
 ## Run
 
 ```bash
-$ ./sputniPIC_CPU.out ../run00/GEM_2D.inp 
+$ ./bin/sputniPIC_CPU.out ./run00/GEM_2D.inp 
 
 
 -------------------------
@@ -140,6 +175,31 @@ Mover: <average> <standard deviation>
 Field: <average> <standard deviation>
 IO: <average> <standard deviation>
 ```
+
+# Postprocessing
+## On Odin
+
+Create virtual environment and activate
+
+```bash
+$ python -m venv .venv
+$ source .venv/bin/activate
+```
+
+Install the required dependencies
+
+```bash
+$ pip install numpy xarray matplotlib vtk tqdm
+```
+
+Run the example gem_2d.py
+
+```bash
+$ python3 postprocessing/gem_2d.py ./run00/data/ --time 10
+```
+
+
+
 ## License
 The software is released under BSD 2-Clause license. See LICENSE for details.
 
