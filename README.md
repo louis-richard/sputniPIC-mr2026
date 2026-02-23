@@ -3,7 +3,7 @@
 sputniPIC is a space plasma simulation software that uses the Particle-In-Cell (PIC) method.
 
 ## Get the code
-Git clone the repository
+Clone the repository
 
 ```bash
 $ git clone https://github.com/louis-richard/sputniPIC-mr2026.git sputniPIC-mr2026
@@ -13,7 +13,7 @@ cd sputniPIC-mr2026
 ## Building
 ### On Linux
 
-Compile with make
+Compile with `make`
 
 ```bash
 $ make
@@ -27,13 +27,13 @@ Alternatively you can use CMake to build sputniPIC. Create the build directory
 $ mkdir build && cd build
 ```
 
-Generate the make files
+Generate the Makefile
 
 ```bash
 $ cmake ..
 ```
 
-Compile with make
+Compile with `make`
 
 ```bash
 $ make
@@ -43,19 +43,43 @@ $ make -j # build with maximum threads
 
 ### On Mac OS
 
-Install homebrew 
+Install Homebrew
 
 ```bash
 $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-Install sputniPIC dependencies
+Install `gcc`
 
 ```bash
+$ brew install gcc
+```
+
+Add the following lines to `~/.zshrc`
+
+```bash
+$ export HOMEBREW_CC=gcc-15
+$ export HOMEBREW_CXX=g++-15
+$ export OMPI_CC=gcc-15
+$ export OMPI_CXX=g++-15
+$ export CC=gcc-15  # NOTE: you need to change these after the installation
+$ export CXX=g++-15 # NOTE: you need to change these after the installation
+```
+
+Then restart your termnal
+
+```bash
+$ source ~/.zshrc
+```
+
+(Re-)Install OpenMPI and the parallel HDF5 library
+
+```bash
+$ brew reinstall open-mpi --build-from-source
 $ brew install hdf5-mpi
 ```
 
-Compile with make
+Compile with `make`
 
 ```bash
 $ make
