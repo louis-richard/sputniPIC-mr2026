@@ -176,7 +176,7 @@ void initGEM(struct parameters *param, struct grid *grd, struct EMfield *field,
       
       }  // end of species initialization
     if (stat(param->RestartDirName.c_str(), &sb) == 0 && S_ISDIR(sb.st_mode)) {
-      save_ic_data(field, field_aux, grd, ids, part, param);
+      //save_ic_data(field, field_aux, grd, ids, part, param);
     }
     else {
       std::cout << "folder " << param->RestartDirName << " does not exist, not recording IC." << std::endl;
