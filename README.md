@@ -213,7 +213,7 @@ $ source .venv/bin/activate
 Install the required dependencies
 
 ```bash
-$ pip install numpy xarray matplotlib vtk tqdm
+$ pip install numpy scipy xarray matplotlib vtk tqdm
 ```
 
 Run the example gem_2d.py
