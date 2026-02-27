@@ -11,17 +11,9 @@ cd sputniPIC-mr2026
 ```
 
 ## Building
-### On Linux
+### On Odin
 
-Compile with `make`
-
-```bash
-$ make
-$ make -j 4 # build with 4 threads
-$ make -j # build with maximum threads
-```
-
-Alternatively you can use CMake to build sputniPIC. Create the build directory
+We will use CMake to build sputniPIC. Create the build directory
 
 ```bash
 $ mkdir build && cd build
@@ -94,16 +86,16 @@ Create a run directory with subdirectories for the output and the restart files
  
 ```bash
 $ cd /homelocal/username/sputniPIC-mr2026/
-$ mkdir ./run00
-$ mkdir ./run00/data
-$ mkdir ./run00/restart
+$ mkdir run00
+$ mkdir run00/data
+$ mkdir run00/restart
 ```
 
 Copy the input files and change the path to the output data
 
 ```bash
-$ scp ./inputfiles/GEM_2D.inp ../run00/GEM_2D.inp
-$ vi ./run00/GEM_2D.inp
+$ cp inputfiles/GEM_2D.inp run00/GEM_2D.inp
+$ vi run00/GEM_2D.inp
 
 SaveDirName = /homelocal/username/sputniPIC-mr2026/run00/data
 RestartDirName = /homelocal/username/sputniPIC-mr2026/run00/restart
@@ -113,7 +105,7 @@ RestartDirName = /homelocal/username/sputniPIC-mr2026/run00/restart
 ## Run
 
 ```bash
-$ ./bin/sputniPIC_CPU.out ./run00/GEM_2D.inp 
+$ ./build/sputniPIC_CPU.out run00/GEM_2D.inp 
 
 
 -------------------------
@@ -206,20 +198,19 @@ IO: <average> <standard deviation>
 Create virtual environment and activate
 
 ```bash
-$ python -m venv .venv
-$ source .venv/bin/activate
+$ pip install matplotlib numpy scipy tqdm vtk xarray
 ```
 
-Install the required dependencies
+Create a subdirectory for figures
 
 ```bash
-$ pip install numpy scipy xarray matplotlib vtk tqdm
+$ mkdir run00/figures
 ```
 
 Run the example gem_2d.py
 
 ```bash
-$ python3 postprocessing/gem_2d.py ./run00/data/ --time 10
+$ python3 postprocessing/gem_2d.py run00/data/ --time 10
 ```
 
 
