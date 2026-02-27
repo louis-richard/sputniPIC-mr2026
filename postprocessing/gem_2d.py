@@ -152,7 +152,7 @@ def main(args):
     else:
         it = 0
         fig, _ = plot_all_2d(gem_2d, it)
-        fig_path = os.path.join(os.path.split(path.strip("/"))[0], "figures")
+        fig_path = path.replace("data", "figures")
         print(fig_path)
         fig.savefig(os.path.join(fig_path, "image_{:03d}.png".format(times[it])))
         plt.show()

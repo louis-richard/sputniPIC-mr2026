@@ -198,20 +198,19 @@ IO: <average> <standard deviation>
 Create virtual environment and activate
 
 ```bash
-$ python -m venv .venv
-$ source .venv/bin/activate
+$ pip install matplotlib numpy scipy tqdm vtk xarray
 ```
 
-Install the required dependencies
+Create a subdirectory for figures
 
 ```bash
-$ pip install numpy scipy xarray matplotlib vtk tqdm
+$ mkdir run00/figures
 ```
 
 Run the example gem_2d.py
 
 ```bash
-$ python3 postprocessing/gem_2d.py ./run00/data/ --time 10
+$ python3 postprocessing/gem_2d.py run00/data/ --time 10
 ```
 
 
