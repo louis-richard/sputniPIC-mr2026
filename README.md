@@ -198,6 +198,13 @@ IO: <average> <standard deviation>
 Create virtual environment and activate
 
 ```bash
+$ python -m venv .venv
+$ source .venv/bin/activate
+```
+
+Install dependencies
+
+```bash
 $ pip install matplotlib numpy scipy tqdm vtk xarray
 ```
 
