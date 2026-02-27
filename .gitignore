@@ -65,4 +65,12 @@ build
 # Run directories
 #################
 run*
+data
 
+# Python virtualenv
+###################
+.venv
+
+# Solutions directories
+#######################
+postprocessing/solutions
